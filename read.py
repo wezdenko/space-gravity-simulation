@@ -1,7 +1,9 @@
 from PIL import Image
+from sim_image import SimImage
 from objects import PointObject, CentralObject, TooSmallRadiusError
 from physic_vectors import Velocity, Position, FasterThanLightError
 white = (255, 255, 255)
+import json
 
 
 def read(lines, line_num, column, data_type=int):
@@ -18,6 +20,22 @@ def read(lines, line_num, column, data_type=int):
     except IndexError:
         raise CorruptedSaveError(
             f'Missing {column} column in {line_num} line in the file')
+
+
+class ImageReader():
+
+    def __init__(self, stream):
+        self.save = json.loads(stream)
+
+    def read(self):
+        return SimImage(size=self._get_size(),
+                        scale=self._get_scale())
+
+    def _get_size(self):
+        return save["image"]["size"]
+
+    def _get_scale(self):
+        return save["image"]["scale"]
 
 
 class SimulationReader():
