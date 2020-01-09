@@ -22,10 +22,13 @@ def read(lines, line_num, column, data_type=int):
             f'Missing {column} column in {line_num} line in the file')
 
 
-class ImageReader():
+class Reader:
 
     def __init__(self, stream):
         self.save = json.loads(stream)
+
+
+class ImageReader(Reader):
 
     def read(self):
         return SimImage(size=self._get_size(),
@@ -38,10 +41,7 @@ class ImageReader():
         return self.save["image"]["scale"]
 
 
-class SimulationReader():
-
-    def __init__(self, stream):
-        self.save = json.loads(stream)
+class SimulationReader(Reader):
 
     def read_steps(self):
         return self.save["steps"]
@@ -50,10 +50,7 @@ class SimulationReader():
         return self.save["time_per_step"]
 
 
-class CentralObjectReader:
-
-    def __init__(self, stream):
-        self.save = json.loads(stream)
+class CentralObjectReader(Reader):
 
     def read(self):
         return CentralObject(mass=self._get_mass(),
@@ -68,6 +65,19 @@ class CentralObjectReader:
 
     def _get_position(self):
         return PositionReader(self.save).read()
+
+
+class PositionReader(Reader):
+
+    def read(self):
+        return Position(x=self._get_x(),
+                        y=self._get_y())
+
+    def _get_x(self):
+        return self.save["central_object"]["position"]["x"]
+
+    def _get_y(self):
+        return self.save["central_object"]["position"]["y"]
 
 
 class PointObjectsReader:
