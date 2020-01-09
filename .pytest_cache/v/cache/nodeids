@@ -1,0 +1,10 @@
+[
+  "test_objects.py::test_check_distance",
+  "test_objects.py::test_distance_vector",
+  "test_objects.py::test_update_velocity",
+  "test_objects.py::test_update_position",
+  "test_objects.py::test_check_pixel",
+  "test_objects.py::test_check_if_inside_img",
+  "test_physic_vectors.py::test_value",
+  "test_read.py::test_read"
+]
