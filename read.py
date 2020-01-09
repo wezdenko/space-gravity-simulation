@@ -69,36 +69,57 @@ class CentralObjectReader(Reader):
 
 class PositionReader(Reader):
 
+    def __init__(self, stream, number=None):
+        super().__init__(stream)
+        self.number = number
+
     def read(self):
         return Position(x=self._get_x(),
                         y=self._get_y())
 
     def _get_x(self):
-        return self.save["central_object"]["position"]["x"]
+        if self.number is None:
+            return self.save["central_object"]["position"]["x"]
+        return self.save["point_object"][self.number]["position"]["x"]
 
     def _get_y(self):
-        return self.save["central_object"]["position"]["y"]
+        if self.number is None:
+            return self.save["central_object"]["position"]["y"]
+        return self.save["point_object"][self.number]["position"]["y"]
 
 
-class PointObjectsReader:
+class PointObjectsReader(Reader):
 
-    def __init__(self, file, line):
-        self._file = file
-        self._line = line
+    def __init__(self, stream, number):
+        super().__init__(stream)
+        self.number = number
 
-    def read_position(self):
-        x = read(self._file, self._line, 0, float)
-        y = read(self._file, self._line, 1, float)
-        return Position(x, y)
+    def read(self):
+        return PointObject(position=self._get_position(),
+                           velocity=self._get_velocity())
 
-    def read_velocity(self):
-        x = read(self._file, self._line, 2, float)
-        y = read(self._file, self._line, 3, float)
-        try:
-            return Velocity(x, y)
-        except FasterThanLightError as e:
-            e.point_object = self._line
-            raise
+    def _get_position(self):
+        return PositionReader(self.save, self.number).read()
+
+    def _get_velocity(self):
+        return VelocityReader(self.save, self.number).read()
+
+
+class VelocityReader(Reader):
+
+    def __init__(self, stream, number):
+        super().__init__(stream)
+        self.number = number
+
+    def read(self):
+        return Position(x=self._get_x(),
+                        y=self._get_y())
+
+    def _get_x(self):
+        return self.save["point_object"][self.number]["velocity"]["x"]
+
+    def _get_y(self):
+        return self.save["point_object"][self.number]["velocity"]["y"]
 
 
 class CorruptedSaveError(Exception):
