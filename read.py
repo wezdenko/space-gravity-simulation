@@ -32,28 +32,22 @@ class ImageReader():
                         scale=self._get_scale())
 
     def _get_size(self):
-        return save["image"]["size"]
+        return self.save["image"]["size"]
 
     def _get_scale(self):
-        return save["image"]["scale"]
+        return self.save["image"]["scale"]
 
 
 class SimulationReader():
 
-    def __init__(self, file):
-        self._file = file
-
-    def read_size(self):
-        return read(self._file, 0, 0)
-
-    def read_scale(self):
-        return read(self._file, 0, 1, float)
+    def __init__(self, stream):
+        self.save = json.loads(stream)
 
     def read_steps(self):
-        return read(self._file, 0, 2)
+        return self.save["steps"]
 
     def read_time_per_step(self):
-        return read(self._file, 0, 3, float)
+        return self.save["time_per_step"]
 
 
 class CentralObjectReader:
