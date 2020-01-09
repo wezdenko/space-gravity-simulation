@@ -1,5 +1,7 @@
-lista = ['a', 'b']
+import json
 
-for i, letter in enumerate(lista):
-    for letter2 in lista[i+1:]:
-        print(f'{letter} = {letter2}')
+with open('saves/save1.json') as f:
+    data = f.read()
+
+data = json.loads(data)
+print(data["point_objects_list"][0]["point_object"]["position"])

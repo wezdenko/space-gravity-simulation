@@ -7,7 +7,7 @@ class SimImage:
 
     def __init__(self, size, scale):
         if type(scale) != float and type(scale) != int:
-            raise ValueError(f'Scale must be float or intiger: {scale}')
+            raise TypeError(f'Scale must be float or intiger: {scale}')
         elif scale <= 0:
             raise ValueError(f'Scale must be positive: {scale}')
 

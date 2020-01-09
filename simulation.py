@@ -1,4 +1,5 @@
 from PIL import Image
+from sim_image import SimImage
 from objects import PointObject, CentralObject, TooSmallRadiusError
 from read import SimulationReader, CentralObjectReader, PointObjectsReader
 from read import CorruptedSaveError
@@ -36,7 +37,6 @@ class Simulation:
 
     def __init__(self):
         self._image = None
-        self._scale = None
         self._steps = None
         self._time_per_step = None
         self.central_object = None
@@ -46,15 +46,11 @@ class Simulation:
 
     @property
     def size(self):
-        return self._image.size[0]
-
-    @property
-    def pixels(self):
-        return self._image.load()
+        return self._image.size
 
     @property
     def scale(self):
-        return self._scale
+        return self._image.scale
 
     @property
     def steps(self):
@@ -65,23 +61,6 @@ class Simulation:
         return self._time_per_step
 
     '''Setters'''
-
-    @size.setter
-    def size(self, value):
-        if type(value) != int:
-            raise ValueError(f'Steps must be an intiger: {value}')
-        elif value <= 0:
-            raise ValueError(f'Size must be positive: {value}')
-        self._image = Image.new('RGB', (value, value), white)
-
-    @scale.setter
-    def scale(self, value):
-        if type(value) != float and type(value) != int:
-            raise ValueError(f'Scale must be float or intiger: {value}')
-        elif value <= 0:
-            raise ValueError(f'Scale must be positive: {value}')
-        else:
-            self._scale = value
 
     @steps.setter
     def steps(self, value):
@@ -121,7 +100,7 @@ class Simulation:
         try:
             if x < 0 or y < 0:
                 raise IndexError
-            self.pixels[x, y] = color
+            self._image.pixels()[x, y] = color
         except IndexError:
             pass
 
