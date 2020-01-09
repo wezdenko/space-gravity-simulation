@@ -52,19 +52,22 @@ class SimulationReader():
 
 class CentralObjectReader:
 
-    def __init__(self, file):
-        self._file = file
+    def __init__(self, stream):
+        self.save = json.loads(stream)
 
-    def read_mass(self):
-        return read(self._file, 1, 0, float)
+    def read(self):
+        return CentralObject(mass=self._get_mass(),
+                             radius=self._get_radius(),
+                             position=self._get_position())
 
-    def read_radius(self):
-        return read(self._file, 1, 1, float)
+    def _get_mass(self):
+        return self.save["central_object"]["mass"]
 
-    def read_position(self):
-        x = read(self._file, 1, 2, float)
-        y = read(self._file, 1, 3, float)
-        return Position(x, y)
+    def _get_radius(self):
+        return self.save["central_object"]["radius"]
+
+    def _get_position(self):
+        return PositionReader(self.save).read()
 
 
 class PointObjectsReader:
