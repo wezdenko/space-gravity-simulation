@@ -163,40 +163,6 @@ class Simulation:
                             velocity_vector_input()))
         return point_objects_list
 
-    '''private methods for load_from_file'''
-
-    def _read_lines(self, file_path):
-        '''because "reader classes" need list of strings as an argument,
-        this method convert file to this list, also it only exists to make
-        methods below less messy'''
-        with open(file_path, 'r') as file:
-            return file.readlines()
-
-    def _read_simulation_from_file(self, file_path):
-        '''loads simulation attributes from file'''
-        file = self._read_lines(file_path)
-        self.size = SimulationReader(file).read_size()
-        self.scale = SimulationReader(file).read_scale()
-        self.steps = SimulationReader(file).read_steps()
-        self.time_per_step = SimulationReader(file).read_time_per_step()
-
-    def _read_central_object_from_file(self, file_path):
-        '''loads central object attributes from file'''
-        file = self._read_lines(file_path)
-        mass = CentralObjectReader(file).read_mass()
-        radius = CentralObjectReader(file).read_radius()
-        position = CentralObjectReader(file).read_position()
-        self.central_object = CentralObject(mass, radius, position)
-
-    def _read_point_objects_from_file(self, file_path):
-        '''loads point objects attributes from file'''
-        file = self._read_lines(file_path)
-        num_of_objects = read(file, 2, 0)
-        for i in range(3, num_of_objects + 3):
-            position = PointObjectsReader(file, i).read_position()
-            velocity = PointObjectsReader(file, i).read_velocity()
-            self._point_objects.append(PointObject(position, velocity))
-
 
 class SizeError(Exception):
     def __init__(self, msg):
