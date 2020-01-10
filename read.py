@@ -5,7 +5,7 @@ from physic_vectors import Velocity, Position, FasterThanLightError
 white = (255, 255, 255)
 import json
 
-
+'''
 def read(lines, line_num, column, data_type=int):
     try:
         data = lines[line_num].strip().split(',')
@@ -20,6 +20,7 @@ def read(lines, line_num, column, data_type=int):
     except IndexError:
         raise CorruptedSaveError(
             f'Missing {column} column in {line_num} line in the file')
+'''
 
 
 class Reader:
@@ -67,6 +68,38 @@ class CentralObjectReader(Reader):
         return PositionReader(self.save).read()
 
 
+class PointObjectReader(Reader):
+
+    def __init__(self, stream, number):
+        super().__init__(stream)
+        self.number = number
+
+    def read(self):
+        return PointObject(position=self._get_position(),
+                           velocity=self._get_velocity())
+
+    def _get_position(self):
+        return PositionReader(self.save, self.number).read()
+
+    def _get_velocity(self):
+        return VelocityReader(self.save, self.number).read()
+
+
+class PointObjectsListReader(Reader):
+
+    def __init__(self, stream):
+        self.stream = stream
+
+    def read(self):
+        point_objects_list = []
+        for i in range(self.objects_number):
+            point_objects_list.append(PointObjectReader(self.stream, i))
+        return point_objects_list
+
+    def objects_number(self):
+        return len(self.save["point_objects_list"])
+
+
 class PositionReader(Reader):
 
     def __init__(self, stream, number=None):
@@ -86,23 +119,6 @@ class PositionReader(Reader):
         if self.number is None:
             return self.save["central_object"]["position"]["y"]
         return self.save["point_object"][self.number]["position"]["y"]
-
-
-class PointObjectsReader(Reader):
-
-    def __init__(self, stream, number):
-        super().__init__(stream)
-        self.number = number
-
-    def read(self):
-        return PointObject(position=self._get_position(),
-                           velocity=self._get_velocity())
-
-    def _get_position(self):
-        return PositionReader(self.save, self.number).read()
-
-    def _get_velocity(self):
-        return VelocityReader(self.save, self.number).read()
 
 
 class VelocityReader(Reader):
