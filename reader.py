@@ -47,7 +47,7 @@ class SimulationReader(Reader):
     def read_steps(self):
         return self.save["steps"]
 
-    def read_time_per_step(self):
+    def read_time(self):
         return self.save["time_per_step"]
 
 
@@ -68,10 +68,10 @@ class CentralObjectReader(Reader):
         return PositionReader(self.save).read()
 
 
-class PointObjectReader(Reader):
+class PointObjectReader():
 
-    def __init__(self, stream, number):
-        super().__init__(stream)
+    def __init__(self, dictionary, number):
+        self.save = dictionary
         self.number = number
 
     def read(self):
@@ -87,23 +87,20 @@ class PointObjectReader(Reader):
 
 class PointObjectsListReader(Reader):
 
-    def __init__(self, stream):
-        self.stream = stream
-
     def read(self):
         point_objects_list = []
-        for i in range(self.objects_number):
-            point_objects_list.append(PointObjectReader(self.stream, i))
+        for i in range(self.objects_number()):
+            point_objects_list.append(PointObjectReader(self.save, i).read())
         return point_objects_list
 
     def objects_number(self):
         return len(self.save["point_objects_list"])
 
 
-class PositionReader(Reader):
+class PositionReader():
 
-    def __init__(self, stream, number=None):
-        super().__init__(stream)
+    def __init__(self, dictionary, number=None):
+        self.save = dictionary
         self.number = number
 
     def read(self):
@@ -113,18 +110,20 @@ class PositionReader(Reader):
     def _get_x(self):
         if self.number is None:
             return self.save["central_object"]["position"]["x"]
-        return self.save["point_object"][self.number]["position"]["x"]
+        return self.save[
+            "point_objects_list"][self.number]["point_object"]["position"]["x"]
 
     def _get_y(self):
         if self.number is None:
             return self.save["central_object"]["position"]["y"]
-        return self.save["point_object"][self.number]["position"]["y"]
+        return self.save[
+            "point_objects_list"][self.number]["point_object"]["position"]["y"]
 
 
-class VelocityReader(Reader):
+class VelocityReader():
 
-    def __init__(self, stream, number):
-        super().__init__(stream)
+    def __init__(self, dictionary, number):
+        self.save = dictionary
         self.number = number
 
     def read(self):
@@ -132,10 +131,12 @@ class VelocityReader(Reader):
                         y=self._get_y())
 
     def _get_x(self):
-        return self.save["point_object"][self.number]["velocity"]["x"]
+        return self.save[
+            "point_objects_list"][self.number]["point_object"]["velocity"]["x"]
 
     def _get_y(self):
-        return self.save["point_object"][self.number]["velocity"]["y"]
+        return self.save[
+            "point_objects_list"][self.number]["point_object"]["velocity"]["y"]
 
 
 class CorruptedSaveError(Exception):

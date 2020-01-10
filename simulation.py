@@ -1,8 +1,7 @@
 from PIL import Image
 from sim_image import SimImage
 from objects import PointObject, CentralObject, TooSmallRadiusError
-from read import SimulationReader, CentralObjectReader, PointObjectsReader
-from read import CorruptedSaveError
+import reader
 
 black = (0, 0, 0)
 grey = (150, 150, 150)
@@ -83,11 +82,15 @@ class Simulation:
     '''Methods'''
 
     def load_from_file(self, file_path):
-        '''takes path to file and loads all attributes from the file
+        '''takes path to a file and loads all attributes from the file
         (no more input is needed)'''
-        self._read_simulation_from_file(file_path)
-        self._read_central_object_from_file(file_path)
-        self._read_point_objects_from_file(file_path)
+        with open(file_path) as file:
+            stream = file.read()
+            self._image = reader.ImageReader(stream).read()
+            self._steps = reader.SimulationReader(stream).read_steps()
+            self._time_per_step = reader.SimulationReader(stream).read_time()
+            self.central_object = reader.CentralObjectReader(stream).read()
+            self._point_objects = reader.PointObjectsListReader(stream).read()
 
     def data_input(self):
         self._simulation_values_input()
@@ -198,3 +201,9 @@ class Simulation:
 class SizeError(Exception):
     def __init__(self, msg):
         super().__init__(msg)
+
+
+if __name__ == "__main__":
+    sim = Simulation()
+    sim.load_from_file('saves/save1.json')
+    print('yupi')

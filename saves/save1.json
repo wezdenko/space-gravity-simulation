@@ -13,28 +13,28 @@
             "y": 10100000
         }
     },
-"point_objects_list": [{
-    "point_object": {
-        "position": {
-            "x": 10100000,
-            "y": 3058000
-        },
-        "velocity": {
-            "x": 7540,
-            "y": 0
+    "point_objects_list": [{
+        "point_object": {
+            "position": {
+                "x": 10100000,
+                "y": 3058000
+            },
+            "velocity": {
+                "x": 7540,
+                "y": 0
+            }
         }
-    }
-},
-{
-    "point_object": {
-        "position": {
-            "x": 10100000,
-            "y": 2058000
-        },
-        "velocity": {
-            "x": -4540,
-            "y": 0
+    },
+    {
+        "point_object": {
+            "position": {
+                "x": 10100000,
+                "y": 2058000
+            },
+            "velocity": {
+                "x": -4540,
+                "y": 0
+            }
         }
-    }
-}]
+    }]
 }
