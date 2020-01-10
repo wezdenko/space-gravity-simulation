@@ -1,27 +1,10 @@
-from PIL import Image
+import json
 from check_errors import check_steps_error, check_time_error
 from sim_image import SimImage
 from objects import PointObject, CentralObject, TooSmallRadiusError
 from physic_vectors import Velocity, Position, FasterThanLightError
+
 white = (255, 255, 255)
-import json
-
-'''
-def read(lines, line_num, column, data_type=int):
-    try:
-        data = lines[line_num].strip().split(',')
-    except IndexError:
-        raise CorruptedSaveError(f'Missing {line_num} line in the file')
-
-    try:
-        return data_type(data[column])
-    except ValueError:
-        raise CorruptedSaveError(
-            f'Data in {column} column in {line_num} line is incorrect!')
-    except IndexError:
-        raise CorruptedSaveError(
-            f'Missing {column} column in {line_num} line in the file')
-'''
 
 
 class Reader:
@@ -82,6 +65,8 @@ class CentralObjectReader(Reader):
             except TypeError as e:
                 raise CorruptedSaveError(e)
             except ValueError as e:
+                raise CorruptedSaveError(e)
+            except TooSmallRadiusError as e:
                 raise CorruptedSaveError(e)
         except CorruptedSaveError as e:
             e.object_type = 'central object'

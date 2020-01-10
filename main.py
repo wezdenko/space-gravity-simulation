@@ -163,7 +163,6 @@ def load_from_file(simulation):
             print('File contains incorrect data!', e)
         choose_input(simulation)
 
-
 def load_from_console(simulation):
     simulation.data_input()
 
