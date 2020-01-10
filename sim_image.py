@@ -11,6 +11,11 @@ class SimImage:
         elif scale <= 0:
             raise ValueError(f'Scale must be positive: {scale}')
 
+        if type(size) != float and type(size) != int:
+            raise TypeError(f'Size must be an intiger: {size}')
+        elif size <= 0:
+            raise ValueError(f'Size must be positive: {size}')
+
         self._image = Image.new('RGB', (size, size), white)
         self.scale = scale
 

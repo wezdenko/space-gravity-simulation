@@ -8,6 +8,10 @@ class Velocity(Vector):
     c = 299792458
 
     def __init__(self, x, y):
+        for key, value in {"x": x, "y": y}.items():
+            if type(value) != int and type(value) != float:
+                raise TypeError(
+                    f'"{key}" value of velocity must be intiger or float: {value}')
         super().__init__(x, y)
         if self.norm() > Velocity.c:
             raise FasterThanLightError(
@@ -20,6 +24,10 @@ class Velocity(Vector):
 class Position(Vector):
 
     def __init__(self, x, y):
+        for key, value in {"x": x, "y": y}.items():
+            if type(value) != int and type(value) != float:
+                raise TypeError(
+                    f'"{key}" value of position must be intiger or float: {value}')
         super().__init__(x, y)
 
     def __eq__(self, other):

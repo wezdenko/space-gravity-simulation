@@ -124,13 +124,15 @@ class CentralObject(Object):
 
     def __init__(self, mass=earth_mass, radius=earth_radius,
                  position=Position(0, 0)):
+        for key, value in {"mass": mass, "radius": radius}.items():
+            if type(value) != int and type(value) != float:
+                raise TypeError(f'{key} must be intiger or float: {value}')
+            elif value <= 0:
+                raise ValueError(f'{key} must be positive: {value}')
+
         super().__init__(position, Velocity(0, 0), mass, radius)
 
-        if self._mass <= 0:
-            raise ValueError(f'Mass must be positive: {self._mass}')
-        elif self._radius <= 0:
-            raise ValueError(f'Radius must be positive: {self._radius}')
-        elif self.schwarzschild_radius() > self._radius:
+        if self.schwarzschild_radius() > self._radius:
             raise TooSmallRadiusError(
                 f'Miniman radius can be {self.schwarzschild_radius()}')
 

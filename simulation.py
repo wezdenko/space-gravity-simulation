@@ -64,20 +64,18 @@ class Simulation:
     @steps.setter
     def steps(self, value):
         if type(value) != int:
-            raise ValueError(f'Steps must be an intiger: {value}')
+            raise TypeError(f'Steps must be an intiger: {value}')
         elif value <= 0:
             raise ValueError(f'Steps must be positive: {value}')
-        else:
-            self._steps = value
+        self._steps = value
 
     @time_per_step.setter
     def time_per_step(self, value):
         if type(value) != float and type(value) != int:
-            raise ValueError(f'Time must be float or intiger: {value}')
+            raise TypeError(f'Time must be float or intiger: {value}')
         elif value <= 0:
             raise ValueError(f'Time must be positive: {value}')
-        else:
-            self._time_per_step = value
+        self._time_per_step = value
 
     '''Methods'''
 

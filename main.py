@@ -4,6 +4,7 @@ from simulation import Simulation
 from reader import CorruptedSaveError
 from PIL import Image
 import os
+from json import decoder
 
 black = (0, 0, 0)
 grey = (150, 150, 150)
@@ -116,10 +117,10 @@ def choose_input(simulation):
         print('Incorrect input, type "yes" or "no".', e, end='\n\n')
         choose_input(simulation)
 
-
+'''
 def load_from_file(simulation):
     try:
-        simulation.load_from_file('saves/save4.json')
+        simulation.load_from_file('saves/save1.json')
     except FileNotFoundError:
         print('File not found!', end='\n\n')
         choose_input(simulation)
@@ -138,6 +139,29 @@ def load_from_file(simulation):
               e, end='\n\n')
         choose_input(simulation)
     # OutSideImageError
+'''
+
+
+def load_from_file(simulation):
+    try:
+        simulation.load_from_file('saves/save1.json')
+    except decoder.JSONDecodeError:
+        print('File cannot be read!')
+        choose_input(simulation)
+    except KeyError as e:
+        print(f'File cannot be read! Couldn\'t find key: {e}')
+        choose_input(simulation)
+    except CorruptedSaveError as e:
+        if e.object_type is not None:
+            if e.object_num is not None:
+                print('File contains incorrect data!')
+                print(f'In {e.object_type} no. {e.object_num}:', e)
+            else:
+                print('File contains incorrect data!')
+                print(f'In {e.object_type}:', e)
+        else:
+            print('File contains incorrect data!', e)
+        choose_input(simulation)
 
 
 def load_from_console(simulation):
