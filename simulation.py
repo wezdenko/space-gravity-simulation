@@ -143,7 +143,7 @@ class Simulation:
             self.collide_with_central_object(first_obj)
 
     def save(self, file_name):
-        self._image.save(f'{file_name}.png')
+        self._image.save(file_name)
 
     '''private methods for data_input'''
 

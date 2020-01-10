@@ -68,6 +68,18 @@ class CentralObjectReader(Reader):
         return PositionReader(self.save).read()
 
 
+class PointObjectsListReader(Reader):
+
+    def read(self):
+        point_objects_list = []
+        for i in range(self.objects_number()):
+            point_objects_list.append(PointObjectReader(self.save, i).read())
+        return point_objects_list
+
+    def objects_number(self):
+        return len(self.save["point_objects_list"])
+
+
 class PointObjectReader():
 
     def __init__(self, dictionary, number):
@@ -83,18 +95,6 @@ class PointObjectReader():
 
     def _get_velocity(self):
         return VelocityReader(self.save, self.number).read()
-
-
-class PointObjectsListReader(Reader):
-
-    def read(self):
-        point_objects_list = []
-        for i in range(self.objects_number()):
-            point_objects_list.append(PointObjectReader(self.save, i).read())
-        return point_objects_list
-
-    def objects_number(self):
-        return len(self.save["point_objects_list"])
 
 
 class PositionReader():

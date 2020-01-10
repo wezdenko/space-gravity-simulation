@@ -1,7 +1,7 @@
 from objects import PointObject, CentralObject, TooSmallRadiusError
 from physic_vectors import Velocity, Position, FasterThanLightError
 from simulation import Simulation
-from read import CorruptedSaveError
+from reader import CorruptedSaveError
 from PIL import Image
 import os
 
@@ -119,7 +119,7 @@ def choose_input(simulation):
 
 def load_from_file(simulation):
     try:
-        simulation.load_from_file('saves/save1.txt')
+        simulation.load_from_file('saves/save4.json')
     except FileNotFoundError:
         print('File not found!', end='\n\n')
         choose_input(simulation)
