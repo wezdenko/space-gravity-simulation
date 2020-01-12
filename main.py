@@ -102,6 +102,16 @@ def is_yes(input_value):
         raise InputError(f'"{input_value}" isn\'t "yes" or "no"')
 
 
+def make_simulation_save(simulation):
+    print('Do you want to save the simulation? (Yes/No)')
+    try:
+        if is_yes(input()):
+            simulation.save_to_file('saves/new_save')
+    except InputError as e:
+        print('Incorrect input, type "yes" or "no".', e, end='\n\n')
+        make_simulation_save(simulation)
+
+
 def choose_input(simulation):
     print('Do you want to load simulation from save? (Yes/No)')
     try:
@@ -161,7 +171,7 @@ def main():
 
     sim.save('obraz')
 
-    sim.save_to_file('saves/new_save')
+    make_simulation_save(sim)
 
 
 if __name__ == '__main__':
