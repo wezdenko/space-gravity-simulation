@@ -5,7 +5,7 @@
     },
     "steps": "int",
     "time_per_step": "float",
-    "central_object":{
+    "central_object": {
         "mass": "float",
         "radius": "float",
         "position": {

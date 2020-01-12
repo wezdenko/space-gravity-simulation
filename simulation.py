@@ -1,7 +1,10 @@
+import reader
+import writer
+import json
 from PIL import Image
 from sim_image import SimImage
 from objects import PointObject, CentralObject, TooSmallRadiusError
-import reader
+
 
 black = (0, 0, 0)
 grey = (150, 150, 150)
@@ -82,13 +85,29 @@ class Simulation:
     def load_from_file(self, file_path):
         '''takes path to a file and loads all attributes from the file
         (no more input is needed)'''
-        with open(file_path) as file:
+        with open(f'{file_path}.json') as file:
             stream = file.read()
-            self._image = reader.ImageReader(stream).read()
-            self._steps = reader.SimulationReader(stream).read_steps()
-            self._time_per_step = reader.SimulationReader(stream).read_time()
-            self.central_object = reader.CentralObjectReader(stream).read()
-            self._point_objects = reader.PointObjectsListReader(stream).read()
+            self._load_attributes(stream)
+
+    def _load_attributes(self, stream):
+        self._image = reader.ImageReader(stream).read()
+        self._steps = reader.SimulationReader(stream).read_steps()
+        self._time_per_step = reader.SimulationReader(stream).read_time()
+        self.central_object = reader.CentralObjectReader(stream).read()
+        self._point_objects = reader.PointObjectsListReader(stream).read()
+
+    def save_to_file(self, file_path):
+        with open(f'{file_path}.json', 'w') as file:
+            file.write(self._prepare_save())
+
+    def _prepare_save(self):
+        save = {}
+        save.update(writer.ImageWriter(self._image).write())
+        save.update(writer.StepsWriter(self.steps).write())
+        save.update(writer.TimeWriter(self.time_per_step).write())
+        save.update(writer.CentralObjectWriter(self.central_object).write())
+        save.update(writer.PointObjectsListWriter(self._point_objects).write())
+        return json.dumps(save)
 
     def data_input(self):
         self._simulation_values_input()
@@ -169,5 +188,4 @@ class SizeError(Exception):
 
 if __name__ == "__main__":
     sim = Simulation()
-    sim.load_from_file('saves/save1.json')
-    print('yupi')
+    print(writer.__doc__)

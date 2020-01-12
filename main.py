@@ -1,9 +1,5 @@
-from objects import PointObject, CentralObject, TooSmallRadiusError
-from physic_vectors import Velocity, Position, FasterThanLightError
 from simulation import Simulation
 from reader import CorruptedSaveError
-from PIL import Image
-import os
 from json import decoder
 
 black = (0, 0, 0)
@@ -117,34 +113,10 @@ def choose_input(simulation):
         print('Incorrect input, type "yes" or "no".', e, end='\n\n')
         choose_input(simulation)
 
-'''
-def load_from_file(simulation):
-    try:
-        simulation.load_from_file('saves/save1.json')
-    except FileNotFoundError:
-        print('File not found!', end='\n\n')
-        choose_input(simulation)
-    except ValueError as e:
-        print('File is corrupted!', e)
-        choose_input(simulation)
-    except CorruptedSaveError as e:
-        print('File is corrupted!', e, end='\n\n')
-        choose_input(simulation)
-    except TooSmallRadiusError as e:
-        print('Central object has to small radius compared to it\'s mass',
-              e, end='\n\n')
-        choose_input(simulation)
-    except FasterThanLightError as e:
-        print(f'Point object in line {e.point_object} has too high velocity.',
-              e, end='\n\n')
-        choose_input(simulation)
-    # OutSideImageError
-'''
-
 
 def load_from_file(simulation):
     try:
-        simulation.load_from_file('saves/save1.json')
+        simulation.load_from_file('saves/new_save')
     except decoder.JSONDecodeError:
         print('File cannot be read!')
         choose_input(simulation)
@@ -162,6 +134,7 @@ def load_from_file(simulation):
         else:
             print('File contains incorrect data!', e)
         choose_input(simulation)
+
 
 def load_from_console(simulation):
     simulation.data_input()
@@ -187,6 +160,8 @@ def main():
             sim.draw_pixel(x, y, black)
 
     sim.save('obraz')
+
+    sim.save_to_file('saves/new_save')
 
 
 if __name__ == '__main__':
