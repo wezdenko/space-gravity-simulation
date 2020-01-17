@@ -18,7 +18,7 @@ class ImageReader(Reader):
     def read(self):
         try:
             return SimImage(size=Size(self._get_size()),
-                            scale=Scale(self._get_scale())),
+                            scale=Scale(self._get_scale()))
         except ValueError as e:
             raise CorruptedSaveError(e)
         except TypeError as e:

@@ -128,7 +128,7 @@ class Simulation:
                 self.collide_point_objects(first_obj, second_obj)
             self.collide_with_central_object(first_obj)
 
-    def save(self, file_name):
+    def save_image(self, file_name):
         self._image.save(file_name)
 
 

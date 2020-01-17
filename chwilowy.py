@@ -1,6 +1,10 @@
-x = 123456789012
-for i in range(30):
-    x = x**2
-    x = x % 1000000000
-    x = x // 1000
-    print(x)
+def create_file(file_path):
+    try:
+        with open(f'{file_path}.txt', 'w') as file:
+            file.write('created')
+    except FileNotFoundError as e:
+        print(e)
+    except OSError as e:
+        print(e)
+
+create_file(input())
