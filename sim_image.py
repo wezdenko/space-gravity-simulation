@@ -1,5 +1,4 @@
 from PIL import Image
-from physic_units import Size, Scale
 
 white = (255, 255, 255)
 

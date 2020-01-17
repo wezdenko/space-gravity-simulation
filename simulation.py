@@ -1,9 +1,6 @@
 import reader
 import writer
 import json
-from PIL import Image
-from sim_image import SimImage
-from objects import PointObject, CentralObject, TooSmallRadiusError
 from console_input import (image_input, steps_input, time_input,
                            central_object_input, point_objects_list_input)
 
