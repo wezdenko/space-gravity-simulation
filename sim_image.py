@@ -1,4 +1,5 @@
 from PIL import Image
+from physic_units import Size, Scale
 
 white = (255, 255, 255)
 
@@ -6,16 +7,6 @@ white = (255, 255, 255)
 class SimImage:
 
     def __init__(self, size, scale):
-        if type(scale) != float and type(scale) != int:
-            raise TypeError(f'Scale must be float or intiger: {scale}')
-        elif scale <= 0:
-            raise ValueError(f'Scale must be positive: {scale}')
-
-        if type(size) != float and type(size) != int:
-            raise TypeError(f'Size must be an intiger: {size}')
-        elif size <= 0:
-            raise ValueError(f'Size must be positive: {size}')
-
         self._image = Image.new('RGB', (size, size), white)
         self.scale = scale
 

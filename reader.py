@@ -1,8 +1,8 @@
 import json
-from check_errors import check_steps_error, check_time_error
 from sim_image import SimImage
 from objects import PointObject, CentralObject, TooSmallRadiusError
 from physic_vectors import Velocity, Position, FasterThanLightError
+from physic_units import Steps, Time, Radius, Mass, Size, Scale
 
 white = (255, 255, 255)
 
@@ -17,8 +17,8 @@ class ImageReader(Reader):
 
     def read(self):
         try:
-            return SimImage(size=self._get_size(),
-                            scale=self._get_scale())
+            return SimImage(size=Size(self._get_size()),
+                            scale=Scale(self._get_scale())),
         except ValueError as e:
             raise CorruptedSaveError(e)
         except TypeError as e:
@@ -34,24 +34,20 @@ class ImageReader(Reader):
 class SimulationReader(Reader):
 
     def read_steps(self):
-        steps = self.save["steps"]
         try:
-            check_steps_error(steps)
+            return Steps(self.save["steps"])
         except ValueError as e:
             raise CorruptedSaveError(e)
         except TypeError as e:
             raise CorruptedSaveError(e)
-        return steps
 
     def read_time(self):
-        time = self.save["time_per_step"]
         try:
-            check_time_error(time)
+            return Time(self.save["time_per_step"])
         except ValueError as e:
             raise CorruptedSaveError(e)
         except TypeError as e:
             raise CorruptedSaveError(e)
-        return self.save["time_per_step"]
 
 
 class CentralObjectReader(Reader):
@@ -73,10 +69,10 @@ class CentralObjectReader(Reader):
             raise
 
     def _get_mass(self):
-        return self.save["central_object"]["mass"]
+        return Mass(self.save["central_object"]["mass"])
 
     def _get_radius(self):
-        return self.save["central_object"]["radius"]
+        return Radius(self.save["central_object"]["radius"])
 
     def _get_position(self):
         return PositionReader(self.save).read()

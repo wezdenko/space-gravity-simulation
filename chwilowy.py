@@ -1,16 +1,6 @@
-dic1 = {"image": {
-        "size": "int",
-        "scale": "float"}}
-
-dic2 = {"central_object": {
-            "mass": "float",
-            "radius": "float",
-            "position": {
-                "x": "float",
-                "y": "flaot"
-        }}}
-
-dicc = {}
-dicc.update(dic1)
-dicc.update(dic2)
-print(dicc)
+x = 123456789012
+for i in range(30):
+    x = x**2
+    x = x % 1000000000
+    x = x // 1000
+    print(x)

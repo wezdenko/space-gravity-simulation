@@ -4,6 +4,8 @@ import json
 from PIL import Image
 from sim_image import SimImage
 from objects import PointObject, CentralObject, TooSmallRadiusError
+from console_input import (image_input, steps_input, time_input,
+                           central_object_input, point_objects_list_input)
 
 
 black = (0, 0, 0)
@@ -62,24 +64,6 @@ class Simulation:
     def time_per_step(self):
         return self._time_per_step
 
-    '''Setters'''
-
-    @steps.setter
-    def steps(self, value):
-        if type(value) != int:
-            raise TypeError(f'Steps must be an intiger: {value}')
-        elif value <= 0:
-            raise ValueError(f'Steps must be positive: {value}')
-        self._steps = value
-
-    @time_per_step.setter
-    def time_per_step(self, value):
-        if type(value) != float and type(value) != int:
-            raise TypeError(f'Time must be float or intiger: {value}')
-        elif value <= 0:
-            raise ValueError(f'Time must be positive: {value}')
-        self._time_per_step = value
-
     '''Methods'''
 
     def load_from_file(self, file_path):
@@ -110,7 +94,14 @@ class Simulation:
         return json.dumps(save)
 
     def data_input(self):
-        self._simulation_values_input()
+        self._attributes_values_input()
+
+    def _attributes_values_input(self):
+        self._image = image_input()
+        self._steps = steps_input()
+        self._time_per_step = time_input()
+        self.central_object = central_object_input()
+        self._point_objects = point_objects_list_input()
 
     def draw_pixel(self, x, y, color):
         '''changes color of the chosen pixel
@@ -161,29 +152,6 @@ class Simulation:
 
     def save(self, file_name):
         self._image.save(file_name)
-
-    '''private methods for data_input'''
-
-    def _simulation_values_input(self):
-        size = value_input('Size')
-        self.image = Image.new('RGB', (size, size), white)
-        self.scale = value_input('Scale')
-        self.steps = value_input('Steps')
-        self.time_per_step = value_input('Time per step')
-
-    def _set_point_objects_values(self):
-        point_objects_list = []
-        num_of_objects = value_input('Number of point objects: ')
-        for i in range(num_of_objects):
-            point_objects_list.append(
-                PointObject(position_vector_input(self.image.size, self.scale),
-                            velocity_vector_input()))
-        return point_objects_list
-
-
-class SizeError(Exception):
-    def __init__(self, msg):
-        super().__init__(msg)
 
 
 if __name__ == "__main__":

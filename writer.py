@@ -1,9 +1,3 @@
-import json
-from check_errors import check_steps_error, check_time_error
-from sim_image import SimImage
-from objects import PointObject, CentralObject, TooSmallRadiusError
-from physic_vectors import Velocity, Position, FasterThanLightError
-
 
 class Writer:
 
@@ -64,5 +58,3 @@ class PointObjectsListWriter:
         for point_object in self.objects_list:
             new_list.append(PointObjectWriter(point_object).write())
         return {"point_objects_list": new_list}
-
-

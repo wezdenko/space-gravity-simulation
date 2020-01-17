@@ -1,6 +1,7 @@
 from simulation import Simulation
 from reader import CorruptedSaveError
 from json import decoder
+from console_input import InputError
 
 black = (0, 0, 0)
 grey = (150, 150, 150)
@@ -10,10 +11,6 @@ white = (255, 255, 255)
 class OutsideImageError(Exception):
     pass
 
-
-class InputError(Exception):
-    def __init__(self, msg):
-        super().__init__(msg)
 
 '''
 def value_input(message):
@@ -126,9 +123,9 @@ def choose_input(simulation):
 
 def load_from_file(simulation):
     try:
-        simulation.load_from_file('saves/new_save')
+        simulation.load_from_file('saves/save2')
     except decoder.JSONDecodeError:
-        print('File cannot be read!')
+        print('File cannot be read! (incorrect syntax)')
         choose_input(simulation)
     except KeyError as e:
         print(f'File cannot be read! Couldn\'t find key: {e}')
