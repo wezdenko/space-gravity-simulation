@@ -10,25 +10,6 @@ grey = (150, 150, 150)
 white = (255, 255, 255)
 
 
-def read(lines, line_num, argument=None):
-    data = lines[line_num].strip().split(',')
-    if argument is None:
-        return data
-    return int(data[argument])
-
-
-def value_input(message):
-    try:
-        value = int(input(f'{message}: '))
-        if value < 1:
-            raise ValueError
-        else:
-            return value
-    except ValueError:
-        print(f'{message} must be an intiger greater than 1!')
-        return value_input(message)
-
-
 class Simulation:
     '''
     This class represents whole simulation and contains all varriables.

@@ -129,7 +129,6 @@ class CentralObject(Object):
 
     def schwarzschild_radius(self):
         '''returns minimal radius object can have as a black hole'''
-        print(self._mass)
         return 2 * gravity_const * self._mass / light_speed**2
 
     def is_inside_radius(self, pixel, scale):
