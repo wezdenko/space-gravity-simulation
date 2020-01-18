@@ -1,5 +1,6 @@
-lista = ['a', 'b']
-
-for i, letter in enumerate(lista):
-    for letter2 in lista[i+1:]:
-        print(f'{letter} = {letter2}')
+x = 123456789012
+for i in range(30):
+    x = x**2
+    x = x % 1000000000
+    x = x // 1000
+    print(x)

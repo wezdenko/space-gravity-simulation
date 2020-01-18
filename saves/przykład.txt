@@ -1,6 +1,0 @@
-size
-scale
-steps
-time per step
-central obj(mass, radius, position)
-point objs(position, velocity)

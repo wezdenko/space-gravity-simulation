@@ -1,0 +1,64 @@
+{
+    "image": {
+        "size": 101,
+        "scale": 200000
+    },
+    "steps": 1000,
+    "time_per_step": 2,
+    "central_object":{
+        "mass": 6000000000000000000000000,
+        "radius": 3371000,
+        "position": {
+            "x": 10100000,
+            "y": 10100000
+        }
+    },
+    "point_objects_list": [{
+        "point_object": {
+            "position": {
+                "x": 10100000,
+                "y": 3058000
+            },
+            "velocity": {
+                "x": 6540,
+                "y": 0
+            }
+        }
+    },
+    {
+        "point_object": {
+            "position": {
+                "x": 3058000,
+                "y": 10100000
+            },
+            "velocity": {
+                "x": 0,
+                "y": -6540
+            }
+        }
+    },
+    {
+        "point_object": {
+            "position": {
+                "x": 10100000,
+                "y": 17142000
+            },
+            "velocity": {
+                "x": -6540,
+                "y": 0
+            }
+        }
+    },
+    {
+        "point_object": {
+            "position": {
+                "x": 17142000,
+                "y": 10100000
+            },
+            "velocity": {
+                "x": 0,
+                "y": 6540
+            }
+        }
+    }]
+}

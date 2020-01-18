@@ -1,4 +1,5 @@
 from physic_vectors import Velocity, Position
+from physic_units import Mass, Radius
 
 gravity_const = 6.674 * 10**(-11)
 light_speed = 3 * 10**8
@@ -82,8 +83,6 @@ class PointObject(Object):
     def calculate_velocity(self, central_obj, time):
         '''returns a float value (velocity) of the point object
         which is gravitationally pulled by a central object '''
-        if time < 0:
-            raise ValueError(f'Time cannot have negative value: {time}')
         distance = self.check_distance(central_obj)
         return gravity_const * central_obj._mass * time / distance**2
 
@@ -96,9 +95,7 @@ class PointObject(Object):
     def update_position(self, time):
         '''takes velocity attribute and moves object to another
         position in given time '''
-        if time < 0:
-            raise ValueError(f'Time cannot have negative value: {time}')
-        self._position += self._velocity * time
+        self._position += self._velocity * float(time)
 
     def is_on_same_pixel(self, other, scale):
         '''bool function, returns True if two objects are on the
@@ -122,15 +119,11 @@ class CentralObject(Object):
     earth_mass = 6 * 10**24
     earth_radius = 6371000
 
-    def __init__(self, mass=earth_mass, radius=earth_radius,
+    def __init__(self, mass=Mass(earth_mass), radius=Radius(earth_radius),
                  position=Position(0, 0)):
         super().__init__(position, Velocity(0, 0), mass, radius)
 
-        if self._mass <= 0:
-            raise ValueError(f'Mass must be positive: {self._mass}')
-        elif self._radius <= 0:
-            raise ValueError(f'Radius must be positive: {self._radius}')
-        elif self.schwarzschild_radius() > self._radius:
+        if self.schwarzschild_radius() > self._radius:
             raise TooSmallRadiusError(
                 f'Miniman radius can be {self.schwarzschild_radius()}')
 

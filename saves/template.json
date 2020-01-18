@@ -1,0 +1,28 @@
+{
+    "image": {
+        "size": "int",
+        "scale": "float"
+    },
+    "steps": "int",
+    "time_per_step": "float",
+    "central_object": {
+        "mass": "float",
+        "radius": "float",
+        "position": {
+            "x": "float",
+            "y": "flaot"
+        }
+    },
+    "point_objects_list": [{
+        "point_object": {
+            "position": {
+                "x": "float",
+                "y": "flaot"
+            },
+            "velocity": {
+                "x": "float",
+                "y": "flaot"
+            }
+        }
+    }]
+}
