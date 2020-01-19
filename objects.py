@@ -145,14 +145,3 @@ class CentralObject(Object):
 class TooSmallRadiusError(Exception):
     def __init__(self, msg):
         super().__init__(msg)
-
-
-if __name__ == '__main__':
-    c_obj = CentralObject(10**24)
-    p_obj = PointObject(Position(10**7, 0))
-
-    p1 = PointObject(Position(-3, -4))
-    p2 = PointObject(Position(0, 0))
-    p3 = PointObject(Position(30, 100.0009))
-
-    print(p3.check_pixel(10))

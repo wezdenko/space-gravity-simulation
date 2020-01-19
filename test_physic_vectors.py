@@ -11,6 +11,7 @@ def test_type_error():
         Velocity('a', 1)
         Position('b', 'da')
 
+
 def test_faster_than_light_error():
     with pytest.raises(FasterThanLightError):
         Velocity(3*10**8, 0)
