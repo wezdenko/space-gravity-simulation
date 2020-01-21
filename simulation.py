@@ -19,10 +19,10 @@ class Simulation:
 
     def __init__(self):
         self._image = None
-        self._steps = None
-        self._time_per_step = None
+        self.steps = None
+        self.time_per_step = None
         self.central_object = None
-        self._point_objects = []
+        self.point_objects = []
 
     '''Property Decorators'''
 
@@ -33,14 +33,6 @@ class Simulation:
     @property
     def scale(self):
         return self._image.scale
-
-    @property
-    def steps(self):
-        return self._steps
-
-    @property
-    def time_per_step(self):
-        return self._time_per_step
 
     '''Methods'''
 
@@ -55,10 +47,10 @@ class Simulation:
         '''takes stream of strings from file (e.g. file.read()) and loads
         attributes using reader.py classes'''
         self._image = reader.ImageReader(stream).read()
-        self._steps = reader.SimulationReader(stream).read_steps()
-        self._time_per_step = reader.SimulationReader(stream).read_time()
+        self.steps = reader.SimulationReader(stream).read_steps()
+        self.time_per_step = reader.SimulationReader(stream).read_time()
         self.central_object = reader.CentralObjectReader(stream).read()
-        self._point_objects = reader.PointObjectsListReader(stream).read()
+        self.point_objects = reader.PointObjectsListReader(stream).read()
 
     def save_to_file(self, file_path):
         '''Saves data from the simulation to json file (do not give extension
@@ -74,7 +66,7 @@ class Simulation:
         save.update(writer.StepsWriter(self.steps).write())
         save.update(writer.TimeWriter(self.time_per_step).write())
         save.update(writer.CentralObjectWriter(self.central_object).write())
-        save.update(writer.PointObjectsListWriter(self._point_objects).write())
+        save.update(writer.PointObjectsListWriter(self.point_objects).write())
         return json.dumps(save)
 
     def data_input(self):
@@ -84,10 +76,10 @@ class Simulation:
     def _attributes_values_input(self):
         '''Loads all attributes using console_input.py classes'''
         self._image = image_input()
-        self._steps = steps_input()
-        self._time_per_step = time_input()
+        self.steps = steps_input()
+        self.time_per_step = time_input()
         self.central_object = central_object_input()
-        self._point_objects = point_objects_list_input()
+        self.point_objects = point_objects_list_input()
 
     def draw_pixel(self, x, y, color):
         '''changes color of the chosen pixel
@@ -104,7 +96,7 @@ class Simulation:
     def draw_point_objects(self, color):
         '''Change color of the pixels which all point objects are located
         on.'''
-        for point_object in self._point_objects:
+        for point_object in self.point_objects:
             x, y = point_object.check_pixel(self.scale)
             self.draw_pixel(x, y, color)
 
@@ -129,20 +121,20 @@ class Simulation:
         object (use not recommended)'''
         x, y = point_obj.check_pixel(self.scale)
         if self.central_object.is_inside_radius((x, y), self.scale):
-            self._point_objects.remove(point_obj)
+            self.point_objects.remove(point_obj)
 
     def collide_point_objects(self, first_obj, second_obj):
         '''Checks if two point objects are on the same pixels and if true,
         removes both of them from the list (use not recommended)'''
         if self.is_on_same_pixel(first_obj, second_obj):
-            self._point_objects.remove(first_obj)
-            self._point_objects.remove(second_obj)
+            self.point_objects.remove(first_obj)
+            self.point_objects.remove(second_obj)
 
     def update_all_colisions(self):
         '''Checks if any collisions in particular time occured and if so,
         removes these objects. (that's the function you want to use)'''
-        for i, first_obj in enumerate(self._point_objects):
-            for second_obj in self._point_objects[i+1:]:
+        for i, first_obj in enumerate(self.point_objects):
+            for second_obj in self.point_objects[i+1:]:
                 self.collide_point_objects(first_obj, second_obj)
             self.collide_with_central_object(first_obj)
 

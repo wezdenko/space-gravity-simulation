@@ -41,9 +41,6 @@ class PositiveInt(int):
             raise ValueError(f'{unit_type} must be positive: {value}')
         super().__init__()
 
-    def __repr__(self):
-        return int(self.value)
-
 
 class Steps(PositiveInt):
 
