@@ -10,5 +10,11 @@
   "test_objects.py::test_pixel_radius",
   "test_objects.py::test_schwarzschild_radius",
   "test_physic_vectors.py::test_type_error",
-  "test_physic_vectors.py::test_faster_than_light_error"
+  "test_physic_vectors.py::test_faster_than_light_error",
+  "test_reader.py::test_image_reader",
+  "test_reader.py::test_simulation_reader",
+  "test_reader.py::test_position_reader",
+  "test_reader.py::test_velocity_reader",
+  "test_reader.py::test_central_object_reader",
+  "test_reader.py::test_point_object_reader"
 ]

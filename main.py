@@ -116,7 +116,7 @@ def main():
 
     # loop which updates simulation "steps" times
     for i in range(sim.steps):
-        
+
         # checks if any collisions between objects happend and updates them
         sim.update_all_colisions()
 
