@@ -6,6 +6,7 @@ from console_input import InputError
 # colors for pixels
 black = (0, 0, 0)
 grey = (150, 150, 150)
+bluish = (31, 78, 89)
 
 
 def is_yes(input_value):
@@ -111,8 +112,8 @@ def main():
     # and then loads this data to simulation object
     choose_input(sim)
 
-    # draw radius of the central object
-    sim.draw_radius()
+    # draw radius of the central object given colour
+    sim.draw_radius(bluish)
 
     # loop which updates simulation "steps" times
     for i in range(sim.steps):

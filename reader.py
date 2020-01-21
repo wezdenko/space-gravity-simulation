@@ -4,18 +4,22 @@ from objects import PointObject, CentralObject, TooSmallRadiusError
 from physic_vectors import Velocity, Position, FasterThanLightError
 from physic_units import Steps, Time, Radius, Mass, Size, Scale
 
-white = (255, 255, 255)
-
 
 class Reader:
+    '''
+    Class which stores data as a dictionary
+    -stream - json type dictionary
+    '''
 
     def __init__(self, stream):
         self.save = json.loads(stream)
 
 
 class ImageReader(Reader):
+    '''Reads size and scale from save'''
 
     def read(self):
+        '''returns SimImage object'''
         try:
             return SimImage(size=Size(self._get_size()),
                             scale=Scale(self._get_scale()))
@@ -32,8 +36,10 @@ class ImageReader(Reader):
 
 
 class SimulationReader(Reader):
+    '''Reads steps and time per step from save'''
 
     def read_steps(self):
+        '''returns steps (int)'''
         try:
             return Steps(self.save["steps"])
         except ValueError as e:
@@ -42,6 +48,7 @@ class SimulationReader(Reader):
             raise CorruptedSaveError(e)
 
     def read_time(self):
+        '''returns time per step'''
         try:
             return Time(self.save["time_per_step"])
         except ValueError as e:
@@ -51,8 +58,10 @@ class SimulationReader(Reader):
 
 
 class CentralObjectReader(Reader):
+    '''Reads all central object attributes from save'''
 
     def read(self):
+        '''returns central object'''
         try:
             try:
                 return CentralObject(mass=self._get_mass(),
@@ -79,8 +88,10 @@ class CentralObjectReader(Reader):
 
 
 class PointObjectsListReader(Reader):
+    '''Reads the list of point objects from save'''
 
     def read(self):
+        '''returns the list of point objects'''
         point_objects_list = []
         for i in range(self.objects_number()):
             try:
@@ -92,16 +103,19 @@ class PointObjectsListReader(Reader):
         return point_objects_list
 
     def objects_number(self):
+        '''returns number of point objects in save'''
         return len(self.save["point_objects_list"])
 
 
 class PointObjectReader():
+    '''Reads all point object attributes'''
 
     def __init__(self, dictionary, number):
         self.save = dictionary
         self.number = number
 
     def read(self):
+        '''returns point object'''
         try:
             return PointObject(position=self._get_position(),
                                velocity=self._get_velocity())
@@ -117,12 +131,19 @@ class PointObjectReader():
 
 
 class PositionReader():
+    '''
+    Reads position from given object
+    -number = None - position of central object
+    -number = 0 - position of first point object
+    -etc...
+    '''
 
     def __init__(self, dictionary, number=None):
         self.save = dictionary
         self.number = number
 
     def read(self):
+        '''returns position vector object'''
         try:
             return Position(x=self._get_x(),
                             y=self._get_y())
@@ -143,12 +164,14 @@ class PositionReader():
 
 
 class VelocityReader():
+    '''Reads velocity of given point object'''
 
     def __init__(self, dictionary, number):
         self.save = dictionary
         self.number = number
 
     def read(self):
+        '''returns velocity vector object'''
         try:
             return Velocity(x=self._get_x(),
                             y=self._get_y())

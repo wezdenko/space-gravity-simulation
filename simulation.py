@@ -100,7 +100,7 @@ class Simulation:
             x, y = point_object.check_pixel(self.scale)
             self.draw_pixel(x, y, color)
 
-    def draw_radius(self):
+    def draw_radius(self, color):
         '''call this function to draw the radius of central object'''
         x, y = self.central_object.check_pixel(self.scale)
         radius = self.central_object.pixel_radius(self.scale)
@@ -108,7 +108,7 @@ class Simulation:
         for i in range(x - radius, x + radius):
             for j in range(y - radius, y + radius):
                 if self.central_object.is_inside_radius((i, j), self.scale):
-                    self.draw_pixel(i, j, (31, 78, 89))
+                    self.draw_pixel(i, j, color)
         self.draw_pixel(x, y, (200, 30, 30))
 
     def is_on_same_pixel(self, first_obj, second_obj):
@@ -117,7 +117,7 @@ class Simulation:
         return first_obj.is_on_same_pixel(second_obj, self.scale)
 
     def collide_with_central_object(self, point_obj):
-        '''Remove all point objects from list which collided with central
+        '''Removes all point objects from list which collided with central
         object (use not recommended)'''
         x, y = point_obj.check_pixel(self.scale)
         if self.central_object.is_inside_radius((x, y), self.scale):
