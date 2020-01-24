@@ -3,7 +3,7 @@ from reader import CorruptedSaveError
 from json import decoder
 from console_input import InputError
 
-# colors for pixels
+# colors of pixels
 black = (0, 0, 0)
 grey = (150, 150, 150)
 bluish = (31, 78, 89)
@@ -103,7 +103,7 @@ def load_from_file(simulation):
 
 
 def main():
-    '''Calls all methods and fucntions and runs whole program.'''
+    '''Calls all methods and functions and runs whole program.'''
 
     # creates simulation object
     sim = Simulation()
