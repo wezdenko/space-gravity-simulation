@@ -67,7 +67,6 @@ def central_object_input():
 def _mass_input():
     try:
         value = _number_input('Type in mass of the central object: ')
-        print(Mass(value))
         return Mass(value)
     except (ValueError, TypeError, InputError) as e:
         print(e)

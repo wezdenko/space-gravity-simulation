@@ -47,16 +47,12 @@ class Object:
     def check_pixel(self, scale):
         '''checks which pixel object is located on and returns
         tuple (x, y) - coordinates of the pixel '''
-        if scale <= 0:
-            raise ValueError(f'Scale must have positive value: {scale}')
-        return (int(self.x_axis / scale), int(self.y_axis / scale))
+        return (int(self.x_axis // scale), int(self.y_axis // scale))
 
     def check_if_inside_img(self, size, scale):
         '''bool method, returns True if object is inside image,
         size - size of an image (positive int)
         scale - scale of an image (positive float) '''
-        if type(size) != int or size <= 0:
-            raise ValueError(f'Size must be a positive intiger: {size}')
         if 0 <= self.check_pixel(scale)[0] < size:
             if 0 <= self.check_pixel(scale)[1] < size:
                 return True
@@ -149,14 +145,3 @@ class CentralObject(Object):
 class TooSmallRadiusError(Exception):
     def __init__(self, msg):
         super().__init__(msg)
-
-
-if __name__ == '__main__':
-    c_obj = CentralObject(10**24)
-    p_obj = PointObject(Position(10**7, 0))
-
-    p1 = PointObject(Position(-3, -4))
-    p2 = PointObject(Position(0, 0))
-    p3 = PointObject(Position(30, 100.0009))
-
-    print(p3.check_pixel(10))
